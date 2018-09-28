@@ -5,8 +5,10 @@ spring:
         enabled: true
         service-id: config-server
       profile: dev
+      username: ${HTTP_BASIC_AUTH_USERNAME:ebox}
+      password: ${HTTP_BASIC_AUTH_PASSWORD:ebox}
 eureka:
   client:
     service-url:
-      defaultZne: http://localhost:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
     register-with-eureka: false
