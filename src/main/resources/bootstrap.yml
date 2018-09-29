@@ -4,11 +4,11 @@ spring:
       discovery:
         enabled: true
         service-id: config-server
-      profile: dev
-      username: ${HTTP_BASIC_AUTH_USERNAME:ebox}
-      password: ${HTTP_BASIC_AUTH_PASSWORD:ebox}
+      profile: ${spring.cloud.config.profile}
+      username: user
+      password: ${security.user.password}
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${eureka.client.service-url.defaultZone}
     register-with-eureka: false

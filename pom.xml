@@ -84,6 +84,12 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
@@ -100,6 +106,28 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <eureka.client.service-url.defaultZone>http://user:local@127.0.0.1:8761/eureka/</eureka.client.service-url.defaultZone>
+                <spring.cloud.config.profile>local</spring.cloud.config.profile>
+                <security.user.password>local</security.user.password>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <eureka.client.service-url.defaultZone>http://user:${env.SECURITY_USER_PASSWORD}@192.168.0.86:8761/eureka/</eureka.client.service-url.defaultZone>
+                <spring.cloud.config.profile>prod</spring.cloud.config.profile>
+                <security.user.password>${env.SECURITY_USER_PASSWORD}</security.user.password>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencyManagement>
         <dependencies>
