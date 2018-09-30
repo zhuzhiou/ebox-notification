@@ -1,12 +1,12 @@
 spring:
+  application:
+    name: ebox-notification
   cloud:
     config:
       discovery:
         enabled: true
         service-id: config-server
       profile: ${spring.cloud.config.profile}
-      username: user
-      password: ${security.user.password}
 eureka:
   client:
     service-url:

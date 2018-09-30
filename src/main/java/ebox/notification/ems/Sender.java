@@ -23,8 +23,8 @@ public class Sender {
     public void send() {
         Notification notification = new Notification();
         notification.setId(StringUtils.remove(UUID.randomUUID().toString(), "-"));
-        notification.setReceiver("13828406169");
-        notification.setMessage("温馨提示，不要沉迷手机。你的取件码是" + RandomStringUtils.randomNumeric(6) + "，请及时取走。");
+        notification.setReceiver("13828406168");
+        notification.setMessage("取件码" + RandomStringUtils.randomNumeric(6) + "，请移步到冠庭园快递柜及时取走您的包裹。");
         amqpTemplate.convertAndSend("notification", notification);
     }
 }

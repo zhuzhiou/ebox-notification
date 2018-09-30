@@ -90,7 +90,7 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>${project.artifactId}-${git.commit.id.abbrev}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -104,6 +104,33 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.4</version>
+                <configuration>
+                    <repository>registry.cn-shenzhen.aliyuncs.com/ebox/${project.artifactId}</repository>
+                    <tag>${git.commit.id.abbrev}</tag>
+                    <buildArgs>
+                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>2.2.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -113,7 +140,6 @@
             <properties>
                 <eureka.client.service-url.defaultZone>http://user:local@127.0.0.1:8761/eureka/</eureka.client.service-url.defaultZone>
                 <spring.cloud.config.profile>local</spring.cloud.config.profile>
-                <security.user.password>local</security.user.password>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -124,7 +150,6 @@
             <properties>
                 <eureka.client.service-url.defaultZone>http://user:${env.SECURITY_USER_PASSWORD}@192.168.0.86:8761/eureka/</eureka.client.service-url.defaultZone>
                 <spring.cloud.config.profile>prod</spring.cloud.config.profile>
-                <security.user.password>${env.SECURITY_USER_PASSWORD}</security.user.password>
             </properties>
         </profile>
     </profiles>
