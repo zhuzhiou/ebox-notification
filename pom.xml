@@ -109,7 +109,7 @@
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.4</version>
                 <configuration>
-                    <repository>registry.cn-shenzhen.aliyuncs.com/ebox/${project.artifactId}</repository>
+                    <repository>localhost.localdomain/ebox/${project.artifactId}</repository>
                     <tag>${git.commit.id.abbrev}</tag>
                     <buildArgs>
                         <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>

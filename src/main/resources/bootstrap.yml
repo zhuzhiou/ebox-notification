@@ -11,4 +11,3 @@ eureka:
   client:
     service-url:
       defaultZone: ${eureka.client.service-url.defaultZone}
-    register-with-eureka: false
