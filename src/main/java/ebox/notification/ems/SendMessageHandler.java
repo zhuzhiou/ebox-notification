@@ -4,7 +4,7 @@ import ebox.notification.log.LogMessage;
 import ebox.notification.log.LogMessageService;
 import ebox.notification.log.LogMessageTemp;
 import ebox.notification.log.LogMessageTempService;
-import ebox.notification.protocol.Notification;
+import ebox.notification.payload.SubmitMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -38,7 +38,7 @@ import java.util.List;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Component
-@RabbitListener(queues = "notification")
+@RabbitListener(queues = "submitMessages")
 @EnableConfigurationProperties(VendorProperties.class)
 public class SendMessageHandler {
 
@@ -62,7 +62,7 @@ public class SendMessageHandler {
     // TODO 日后可以用 Feign 重构接口
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @RabbitHandler
-    public void handle(Notification notification) throws IOException {
+    public void handle(SubmitMessage notification) throws IOException {
         if (isBlank(notification.getId()) || StringUtils.length(notification.getReceiver()) < 11 || isBlank(notification.getMessage())) {
             return;
         }

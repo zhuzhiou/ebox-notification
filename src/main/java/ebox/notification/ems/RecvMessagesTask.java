@@ -4,6 +4,7 @@ import ebox.notification.log.LogMessage;
 import ebox.notification.log.LogMessageService;
 import ebox.notification.log.LogMessageTemp;
 import ebox.notification.log.LogMessageTempService;
+import ebox.notification.payload.DeliverMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -19,6 +20,7 @@ import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -43,9 +45,9 @@ import java.util.stream.Collectors;
  */
 @Component
 @EnableConfigurationProperties(VendorProperties.class)
-public class TakeReportsTask {
+public class RecvMessagesTask {
 
-    private static final Logger logger = LoggerFactory.getLogger(TakeReportsTask.class);
+    private static final Logger logger = LoggerFactory.getLogger(RecvMessagesTask.class);
 
     @Autowired
     private LogMessageTempService logMessageTempService;
@@ -62,9 +64,12 @@ public class TakeReportsTask {
     @Autowired
     private SAXReader saxReader;
 
+    @Autowired
+    private AmqpTemplate amqpTemplate;
+
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Scheduled(fixedDelay = 30000L)
-    public void takeMessageReceipts() throws IOException, DocumentException {
+    public void recvRegisteredDelivers() throws IOException, DocumentException {
         if (logger.isInfoEnabled())
         {
             logger.info(">>> 开始获取短信回执...");
@@ -132,6 +137,14 @@ public class TakeReportsTask {
                                         }
                                     });
                                     map.clear();
+                                    logMessages.forEach(logMessage -> {
+                                        DeliverMessage deliverMessage = new DeliverMessage();
+                                        deliverMessage.setId(logMessage.getId());
+                                        deliverMessage.setCode(logMessage.getResult());
+                                        deliverMessage.setMessage(logMessage.getComment());
+                                        deliverMessage.setReport(true);
+                                        amqpTemplate.convertAndSend("deliverMessages", deliverMessage);
+                                    });
                                     logMessageService.updateMessages(logMessages);
                                     logMessageTempService.deleteMessagesByIds(logMessagesTemp.stream().map(LogMessageTemp::getId).collect(Collectors.toList()));
                                 }

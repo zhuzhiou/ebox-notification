@@ -1,9 +1,9 @@
-package ebox.notification.protocol;
+package ebox.notification.payload;
 
 import java.io.Serializable;
 
 @lombok.Data
-public class Notification implements Serializable {
+public class SubmitMessage implements Serializable {
 
     private String id;
 
