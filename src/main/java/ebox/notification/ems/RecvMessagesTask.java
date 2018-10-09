@@ -32,8 +32,10 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -142,6 +144,10 @@ public class RecvMessagesTask {
                                         deliverMessage.setId(logMessage.getId());
                                         deliverMessage.setCode(logMessage.getResult());
                                         deliverMessage.setMessage(logMessage.getComment());
+                                        deliverMessage.setReportTime(Date.from(logMessage
+                                                .getLastModifiedDate()
+                                                .atZone(ZoneId.systemDefault())
+                                                .toInstant()));
                                         deliverMessage.setReport(true);
                                         amqpTemplate.convertAndSend("deliverMessages", deliverMessage);
                                     });
