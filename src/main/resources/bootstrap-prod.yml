@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
+      profile: ${spring.cloud.config.profile}
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    use-dns-for-fetching-service-urls: true
+    region: cn-guangzhou
+    eureka-server-d-n-s-name: ebox
+    eureka-server-port: 8761
+    eureka-server-u-r-l-context: eureka

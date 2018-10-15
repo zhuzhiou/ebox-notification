@@ -1,15 +1,5 @@
 spring:
   application:
     name: ebox-notification
-  cloud:
-    config:
-      discovery:
-        enabled: true
-        service-id: config-server
-      profile: ${spring.cloud.config.profile}
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    service-url:
-      defaultZone: ${eureka.client.service-url.defaultZone}
+  profiles:
+    active: ${spring.profiles.active}
