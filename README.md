@@ -1,4 +1,4 @@
-# config-server单机部署
+# ebox-notification单机部署
 
 ## 构建Docker镜像
 
@@ -17,19 +17,19 @@ docker login --username=zhuzhiou@qq.com registry.cn-shenzhen.aliyuncs.com
 ## 将镜像推送到Registry
 
 ```
-docker push registry.cn-shenzhen.aliyuncs.com/ebox/config-server:latest
+docker push registry.cn-shenzhen.aliyuncs.com/ebox/ebox-notification:latest
 ```
 
 ## 拉取镜像
 
 ```
-docker pull registry.cn-shenzhen.aliyuncs.com/ebox/config-server:latest
+docker pull registry.cn-shenzhen.aliyuncs.com/ebox/ebox-notification:latest
 ```
 
 ## 运行应用程序
 
 ```
-docker run -it --rm --name config-server --dns 192.168.0.86 registry.cn-shenzhen.aliyuncs.com/ebox/config-server:latest
+docker run -it --rm --name ebox-notification --dns 192.168.0.86 registry.cn-shenzhen.aliyuncs.com/ebox/ebox-notification:latest
 ```
 
 ## 知识点

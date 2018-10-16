@@ -3,3 +3,9 @@ spring:
     name: ebox-notification
   profiles:
     active: ${spring.profiles.active}
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
+      profile: ${spring.profiles.active}

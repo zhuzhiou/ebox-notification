@@ -90,7 +90,7 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-        <finalName>${project.artifactId}-${git.commit.id.abbrev}</finalName>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -109,14 +109,14 @@
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.4</version>
                 <configuration>
-                    <repository>localhost.localdomain/ebox/${project.artifactId}</repository>
-                    <tag>${git.commit.id.abbrev}</tag>
+                    <repository>registry.cn-shenzhen.aliyuncs.com/ebox/${project.artifactId}</repository>
+                    <tag>latest</tag>
                     <buildArgs>
                         <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
                 </configuration>
             </plugin>
-            <plugin>
+            <!--plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
                 <version>2.2.5</version>
@@ -130,7 +130,7 @@
                 <configuration>
                     <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
                 </configuration>
-            </plugin>
+            </plugin-->
         </plugins>
     </build>
 
@@ -138,7 +138,7 @@
         <profile>
             <id>local</id>
             <properties>
-                <spring.cloud.config.profile>local</spring.cloud.config.profile>
+                <spring.profiles.active>local</spring.profiles.active>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -147,7 +147,7 @@
         <profile>
             <id>prod</id>
             <properties>
-                <spring.cloud.config.profile>prod</spring.cloud.config.profile>
+                <spring.profiles.active>prod</spring.profiles.active>
             </properties>
         </profile>
     </profiles>
