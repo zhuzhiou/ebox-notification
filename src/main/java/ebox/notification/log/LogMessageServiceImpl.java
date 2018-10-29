@@ -1,7 +1,5 @@
 package ebox.notification.log;
 
-import com.google.common.escape.Escaper;
-import com.google.common.escape.Escapers;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

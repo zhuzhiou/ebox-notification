@@ -45,7 +45,7 @@ public class LogMessageTempServiceImpl implements LogMessageTempService {
         }
         return jdbcTemplate.query(StringUtils.join("select id, created_date from log_message_temp where id in (", Strings.repeat("?, ", ids.size()).substring(0, ids.size() * 3 - 2),")"), ps -> {
             for (int i = 0; i < ids.size(); i ++) {
-                ps.setString(i + 1, ids.get(0));
+                ps.setString(i + 1, ids.get(i));
             }
         }, (rs, rowNum) -> {
             LogMessageTemp logMessage = new LogMessageTemp();
