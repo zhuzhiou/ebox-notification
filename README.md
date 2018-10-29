@@ -29,7 +29,7 @@ docker pull registry.cn-shenzhen.aliyuncs.com/ebox/ebox-notification:latest
 ## 运行应用程序
 
 ```
-docker run -it --rm --name ebox-notification --dns 192.168.0.86 registry.cn-shenzhen.aliyuncs.com/ebox/ebox-notification:latest
+docker run -it --rm --name ebox-notification --dns 172.16.159.38 registry.cn-shenzhen.aliyuncs.com/ebox/ebox-notification:latest
 ```
 
 ## 知识点
