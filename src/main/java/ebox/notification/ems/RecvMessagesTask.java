@@ -94,6 +94,9 @@ public class RecvMessagesTask {
             int statusCode = statusLine.getStatusCode();
             if (statusCode == 200) {
                 String entity = EntityUtils.toString(httpResponse.getEntity(), "utf-8");
+                if (logger.isInfoEnabled()) {
+                    logger.info("短信回执：{}", entity);
+                }
                 Document document = saxReader.read(new StringReader(entity));
                 Node result = document.selectSingleNode("//Result");
                 if (result == null) {
@@ -149,7 +152,7 @@ public class RecvMessagesTask {
                                                 .atZone(ZoneId.systemDefault())
                                                 .toInstant()));
                                         deliverMessage.setReport(true);
-                                        amqpTemplate.convertAndSend("deliverMessages", deliverMessage);
+                                        amqpTemplate.convertAndSend("amq.direct", "deliverMessage", deliverMessage);
                                     });
                                     logMessageService.updateMessages(logMessages);
                                     logMessageTempService.deleteMessagesByIds(logMessagesTemp.stream().map(LogMessageTemp::getId).collect(Collectors.toList()));

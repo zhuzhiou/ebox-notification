@@ -38,7 +38,7 @@ import java.util.List;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Component
-@RabbitListener(queues = "submitMessages")
+@RabbitListener(queues = "submitMessage")
 @EnableConfigurationProperties(VendorProperties.class)
 public class SendMessageHandler {
 
@@ -97,7 +97,7 @@ public class SendMessageHandler {
             try {
                 String entity = EntityUtils.toString(httpResponse.getEntity(), "utf-8");
                 if (logger.isInfoEnabled()) {
-                    logger.info("短信网关返回发送结果：{}", entity);
+                    logger.info("发送结果：{}", entity);
                 }
                 Document document = saxReader.read(new StringReader(entity));
                 Node result = document.selectSingleNode("//Result");

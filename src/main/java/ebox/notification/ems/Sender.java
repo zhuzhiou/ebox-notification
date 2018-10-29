@@ -22,6 +22,6 @@ public class Sender {
         submitMessage.setId(StringUtils.remove(UUID.randomUUID().toString(), "-"));
         submitMessage.setReceiver("13828406168");
         submitMessage.setMessage("取件码" + RandomStringUtils.randomNumeric(6) + "，请移步到冠庭园快递柜及时取走您的包裹。");
-        amqpTemplate.convertAndSend("submitMessages", submitMessage);
+        amqpTemplate.convertAndSend("amq.direct", "submitMessage", submitMessage);
     }
 }
